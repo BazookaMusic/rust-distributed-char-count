@@ -48,7 +48,8 @@ pub fn distributed_character_count(n_clients: usize)
 
     let character_count = Arc::new(AtomicU32::new(0));
 
-    let server_thread = thread::spawn(move || {
+    // We won't wait for the server to finish.
+    thread::spawn(move || {
         // Start WebSocket server
         let server = WebSocketServer::new("127.0.0.1:8080", accumulate_chars(character_count.clone()));
         server.run(&sender);
